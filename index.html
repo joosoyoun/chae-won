@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>김채원 수학문제 1</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Noto Sans KR', sans-serif;
+      background: #fff0f6;
+      color: #d63384;
+    }
+    .cover {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #fff0f6 60%, #f8bbd0 100%);
+    }
+    .cover-title {
+      font-size: 3rem;
+      font-weight: bold;
+      margin-bottom: 2rem;
+      color: #d63384;
+      letter-spacing: 0.1em;
+      text-shadow: 1px 1px 8px #f8bbd0;
+    }
+    .cover-date {
+      font-size: 1.5rem;
+      color: #e64980;
+      margin-bottom: 1rem;
+    }
+    .problems {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1rem 4rem 1rem;
+    }
+    .problem-img {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      margin: 4rem 0;
+      background: #fff;
+      border-radius: 1.5rem;
+      box-shadow: 0 2px 12px #f8bbd088;
+      padding: 1.2rem 0.5rem;
+    }
+    .problem-img img {
+      max-width: 500px;
+      max-height: 350px;
+      width: 100%;
+      height: auto;
+      border-radius: 1rem;
+      box-shadow: none; /* 이미지 자체 그림자 제거 */
+      background: transparent;
+      object-fit: contain;
+      display: block;
+    }
+    .problem-label {
+      position: absolute;
+      top: 1.1rem;
+      left: 1.2rem;
+      font-size: 1.05rem;
+      font-weight: bold;
+      color: #d63384;
+      margin: 0;
+      padding: 0.2em 0.8em 0.2em 0.5em;
+      background: #fff0f6cc;
+      border-radius: 0.7em;
+      box-shadow: 0 1px 4px #f8bbd044;
+      z-index: 2;
+      text-align: left;
+      letter-spacing: 0.03em;
+    }
+    .draw-canvas {
+      display: block;
+      margin: 1.2rem auto 0.5rem auto;
+      border: 2px dashed #f8bbd0;
+      border-radius: 0.7em;
+      background: #fff0f6;
+      cursor: crosshair;
+      touch-action: none;
+      max-width: 100%;
+      height: auto;
+    }
+    .clear-btn {
+      display: block;
+      margin: 0 auto 0.5rem auto;
+      background: #fff0f6;
+      color: #d63384;
+      border: 1px solid #f8bbd0;
+      border-radius: 0.5em;
+      padding: 0.3em 1.2em;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .clear-btn:hover {
+      background: #f8bbd0;
+      color: #fff;
+    }
+    @media (max-width: 600px) {
+      .cover-title { font-size: 2rem; }
+      .problems { padding: 1rem 0.2rem; }
+      .problem-img { padding: 1rem 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cover" id="cover">
+    <div class="cover-title">김채원 수학문제</div>
+    <div class="cover-date">2025.7.21</div>
+  </div>
+  <div class="problems">
+    <div class="problem-img"><div class="problem-label">문제 1</div><img src="11.png" alt="문제 1"><canvas class="draw-canvas" width="700" height="220"></canvas><button class="clear-btn">지우기</button></div>
+    <div class="problem-img"><div class="problem-label">문제 2</div><img src="22.png" alt="문제 2"><canvas class="draw-canvas" width="700" height="220"></canvas><button class="clear-btn">지우기</button></div>
+    <div class="problem-img"><div class="problem-label">문제 3</div><img src="33.png" alt="문제 3"><canvas class="draw-canvas" width="700" height="220"></canvas><button class="clear-btn">지우기</button></div>
+    <div class="problem-img"><div class="problem-label">문제 4</div><img src="44.png" alt="문제 4"><canvas class="draw-canvas" width="700" height="220"></canvas><button class="clear-btn">지우기</button></div>
+    <div class="problem-img"><div class="problem-label">문제 5</div><img src="55.png" alt="문제 5"><canvas class="draw-canvas" width="700" height="220"></canvas><button class="clear-btn">지우기</button></div>
+    <div class="problem-img"><div class="problem-label">문제 6</div><img src="66.png" alt="문제 6"><canvas class="draw-canvas" width="700" height="220"></canvas><button class="clear-btn">지우기</button></div>
+    <div class="problem-img"><div class="problem-label">문제 7</div><img src="77.png" alt="문제 7"><canvas class="draw-canvas" width="700" height="220"></canvas><button class="clear-btn">지우기</button></div>
+    <div class="problem-img"><div class="problem-label">문제 8</div><img src="88.png" alt="문제 8"><canvas class="draw-canvas" width="700" height="220"></canvas><button class="clear-btn">지우기</button></div>
+    <div class="problem-img"><div class="problem-label">문제 9</div><img src="99.png" alt="문제 9"><canvas class="draw-canvas" width="700" height="220"></canvas><button class="clear-btn">지우기</button></div>
+  </div>
+  <script>
+    // 표지에서 아무 곳이나 클릭하면 문제로 이동
+    document.getElementById('cover').addEventListener('click', function() {
+      document.querySelector('.problems').scrollIntoView({behavior: 'smooth'});
+    });
+
+    // 펜툴(캔버스) 기능: 각 문제마다 독립적으로 동작
+    document.querySelectorAll('.problem-img').forEach(function(box) {
+      const canvas = box.querySelector('.draw-canvas');
+      const ctx = canvas.getContext('2d');
+      let drawing = false;
+      let lastX = 0, lastY = 0;
+
+      // 마우스 이벤트
+      canvas.addEventListener('mousedown', function(e) {
+        drawing = true;
+        const rect = canvas.getBoundingClientRect();
+        lastX = e.clientX - rect.left;
+        lastY = e.clientY - rect.top;
+      });
+      canvas.addEventListener('mousemove', function(e) {
+        if (!drawing) return;
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        ctx.lineWidth = 2.5;
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = '#d63384';
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+        lastX = x;
+        lastY = y;
+      });
+      canvas.addEventListener('mouseup', function() { drawing = false; });
+      canvas.addEventListener('mouseleave', function() { drawing = false; });
+
+      // 터치 이벤트
+      canvas.addEventListener('touchstart', function(e) {
+        drawing = true;
+        const rect = canvas.getBoundingClientRect();
+        const touch = e.touches[0];
+        lastX = touch.clientX - rect.left;
+        lastY = touch.clientY - rect.top;
+      });
+      canvas.addEventListener('touchmove', function(e) {
+        if (!drawing) return;
+        const rect = canvas.getBoundingClientRect();
+        const touch = e.touches[0];
+        const x = touch.clientX - rect.left;
+        const y = touch.clientY - rect.top;
+        ctx.lineWidth = 2.5;
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = '#d63384';
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+        lastX = x;
+        lastY = y;
+        e.preventDefault();
+      }, {passive: false});
+      canvas.addEventListener('touchend', function() { drawing = false; });
+      canvas.addEventListener('touchcancel', function() { drawing = false; });
+
+      // 지우기 버튼
+      const clearBtn = box.querySelector('.clear-btn');
+      clearBtn.addEventListener('click', function() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      });
+    });
+  </script>
+</body>
+</html>
