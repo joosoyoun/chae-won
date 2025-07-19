@@ -111,6 +111,23 @@
       background: #f8bbd0;
       color: #fff;
     }
+    .save-btn {
+      display: block;
+      margin: 0.2rem auto 0.7rem auto;
+      background: #d63384;
+      color: #fff;
+      border: 1px solid #f8bbd0;
+      border-radius: 0.5em;
+      padding: 0.3em 1.2em;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .save-btn:hover {
+      background: #f8bbd0;
+      color: #d63384;
+    }
     @media (max-width: 600px) {
       .cover-title { font-size: 2rem; }
       .problems { padding: 1rem 0.2rem; }
@@ -125,15 +142,15 @@
     <div class="cover-author">주소연(메텔) 선생님</div>
   </div>
   <div class="problems">
-    <div class="problem-img"><div class="problem-label">문제 1</div><img src="11.png" alt="문제 1"><canvas class="draw-canvas" width="700" height="220"></canvas><button class="clear-btn">지우기</button></div>
-    <div class="problem-img"><div class="problem-label">문제 2</div><img src="22.png" alt="문제 2"><canvas class="draw-canvas" width="700" height="220"></canvas><button class="clear-btn">지우기</button></div>
-    <div class="problem-img"><div class="problem-label">문제 3</div><img src="33.png" alt="문제 3"><canvas class="draw-canvas" width="700" height="220"></canvas><button class="clear-btn">지우기</button></div>
-    <div class="problem-img"><div class="problem-label">문제 4</div><img src="44.png" alt="문제 4"><canvas class="draw-canvas" width="700" height="220"></canvas><button class="clear-btn">지우기</button></div>
-    <div class="problem-img"><div class="problem-label">문제 5</div><img src="55.png" alt="문제 5"><canvas class="draw-canvas" width="700" height="220"></canvas><button class="clear-btn">지우기</button></div>
-    <div class="problem-img"><div class="problem-label">문제 6</div><img src="66.png" alt="문제 6"><canvas class="draw-canvas" width="700" height="220"></canvas><button class="clear-btn">지우기</button></div>
-    <div class="problem-img"><div class="problem-label">문제 7</div><img src="77.png" alt="문제 7"><canvas class="draw-canvas" width="700" height="220"></canvas><button class="clear-btn">지우기</button></div>
-    <div class="problem-img"><div class="problem-label">문제 8</div><img src="88.png" alt="문제 8"><canvas class="draw-canvas" width="700" height="220"></canvas><button class="clear-btn">지우기</button></div>
-    <div class="problem-img"><div class="problem-label">문제 9</div><img src="99.png" alt="문제 9"><canvas class="draw-canvas" width="700" height="220"></canvas><button class="clear-btn">지우기</button></div>
+    <div class="problem-img"><div class="problem-label">문제 1</div><img src="11.png" alt="문제 1"><canvas class="draw-canvas" width="700" height="220"></canvas><button class="clear-btn">지우기</button><button class="save-btn">저장</button></div>
+    <div class="problem-img"><div class="problem-label">문제 2</div><img src="22.png" alt="문제 2"><canvas class="draw-canvas" width="700" height="220"></canvas><button class="clear-btn">지우기</button><button class="save-btn">저장</button></div>
+    <div class="problem-img"><div class="problem-label">문제 3</div><img src="33.png" alt="문제 3"><canvas class="draw-canvas" width="700" height="220"></canvas><button class="clear-btn">지우기</button><button class="save-btn">저장</button></div>
+    <div class="problem-img"><div class="problem-label">문제 4</div><img src="44.png" alt="문제 4"><canvas class="draw-canvas" width="700" height="220"></canvas><button class="clear-btn">지우기</button><button class="save-btn">저장</button></div>
+    <div class="problem-img"><div class="problem-label">문제 5</div><img src="55.png" alt="문제 5"><canvas class="draw-canvas" width="700" height="220"></canvas><button class="clear-btn">지우기</button><button class="save-btn">저장</button></div>
+    <div class="problem-img"><div class="problem-label">문제 6</div><img src="66.png" alt="문제 6"><canvas class="draw-canvas" width="700" height="220"></canvas><button class="clear-btn">지우기</button><button class="save-btn">저장</button></div>
+    <div class="problem-img"><div class="problem-label">문제 7</div><img src="77.png" alt="문제 7"><canvas class="draw-canvas" width="700" height="220"></canvas><button class="clear-btn">지우기</button><button class="save-btn">저장</button></div>
+    <div class="problem-img"><div class="problem-label">문제 8</div><img src="88.png" alt="문제 8"><canvas class="draw-canvas" width="700" height="220"></canvas><button class="clear-btn">지우기</button><button class="save-btn">저장</button></div>
+    <div class="problem-img"><div class="problem-label">문제 9</div><img src="99.png" alt="문제 9"><canvas class="draw-canvas" width="700" height="220"></canvas><button class="clear-btn">지우기</button><button class="save-btn">저장</button></div>
   </div>
   <script>
     // 표지에서 아무 곳이나 클릭하면 문제로 이동
@@ -142,11 +159,20 @@
     });
 
     // 펜툴(캔버스) 기능: 각 문제마다 독립적으로 동작
-    document.querySelectorAll('.problem-img').forEach(function(box) {
+    document.querySelectorAll('.problem-img').forEach(function(box, idx) {
       const canvas = box.querySelector('.draw-canvas');
       const ctx = canvas.getContext('2d');
       let drawing = false;
       let lastX = 0, lastY = 0;
+      const storageKey = 'mathpad_' + idx;
+
+      // 저장된 답 불러오기
+      const saved = localStorage.getItem(storageKey);
+      if (saved) {
+        const img = new window.Image();
+        img.onload = function() { ctx.drawImage(img, 0, 0); };
+        img.src = saved;
+      }
 
       // 마우스 이벤트
       canvas.addEventListener('mousedown', function(e) {
@@ -205,6 +231,15 @@
       const clearBtn = box.querySelector('.clear-btn');
       clearBtn.addEventListener('click', function() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        localStorage.removeItem(storageKey);
+      });
+
+      // 저장 버튼
+      const saveBtn = box.querySelector('.save-btn');
+      saveBtn.addEventListener('click', function() {
+        localStorage.setItem(storageKey, canvas.toDataURL());
+        saveBtn.textContent = '저장됨!';
+        setTimeout(() => { saveBtn.textContent = '저장'; }, 1200);
       });
     });
   </script>
